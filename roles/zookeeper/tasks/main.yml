@@ -1,0 +1,29 @@
+---
+
+- name: Setup Firewall for zookeeper
+  include: firewall.yml
+
+- name: Install zookeeper
+  yum:
+    name: mesosphere-zookeeper
+    state: latest
+
+- name: Determine zookeeper ID
+  set_fact:
+    zoo_id: "{{ groups.masters.index(inventory_hostname) + 1 }}"
+
+- name: Set zookeeper ID
+  template:
+    src: myid.j2
+    dest: /var/lib/zookeeper/myid
+  notify:
+    - Restart zookeeper
+
+- name: Append zookeeper IP addresses
+  lineinfile:
+    dest: /etc/zookeeper/conf/zoo.cfg
+    line: "server.{{ hostvars[item].zoo_id }}={{ item }}:2888:3888"
+    regexp: "^server.{{ hostvars[item].zoo_id }}"
+  with_items: "{{ groups.masters }}"
+  notify:
+    - Restart zookeeper

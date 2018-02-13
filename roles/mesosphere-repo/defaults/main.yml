@@ -1,0 +1,5 @@
+---
+
+mesosphere_repo_base_url: http://repos.mesosphere.com/el/7/noarch/RPMS
+mesosphere_repo_rpm_filename: mesosphere-el-repo-7-3.noarch.rpm
+mesosphere_repo_rpm_sha256: a4c9639ccb887046e9065a69190fae57ef32a00df2c41e93e2a0e940485d293a

@@ -1,26 +1,35 @@
 ## Playbook for creating a Mesos, Marathon, Docker and Weave PaaS using Ansible
 
-This is a playbook which I use for deploying clusters utilizing the following technologies:
+This is a playbook will deploy clusters utilizing the following technologies:
 
-- Oracle Java 8 for Zookeeper and Marathon
-- Apache Mesos w/ Zookeeper for Cluster Scheduling
-- Mesosphere Marathon for long running task and Docker support
-- Docker for containers
-- Weave for multi-host Docker networking and DNS resolution
+- Oracle Java 8 for Mesos and Zookeeper
+- Apache Mesos for task scheduling
+- Docker for common container platform
+- Marathon for long running service orchestration
+- Chronos for time and dependency based task scheduling
+- Weave for overlay networking, IPAM, and DNS
 
 This playbook supports 1..N Mesos Master nodes and 1..N Mesos slave based nodes.
 
 ### Additional Documentation
 
-See the blog entry and series related to this playbook at: [Eating my own Dog Food: Building a PaaS](http://jbu.io/2016/04/05/eating-my-own-dog-food-building-a-paas/)
+My attempted revamp of a project first created by Jeremy Unruh. The idea is to
+keep the core Mesos, Marathon, Chronos, Docker, Weave, and Zookeeper intact.
+
+See his blog entry and series related to this playbook at: [Eating my own Dog Food: Building a PaaS](http://jbu.io/2016/04/05/eating-my-own-dog-food-building-a-paas/)
 
 ## Using this playbook with Vagrant
 
-Out of the box after cloning this repo a simple ```vagrant up``` will create a single Master and 2 Slave cluster.  This cluster will create a weave network for docker to docker multi-host networking with a DNS name of *.mycompany.local.  
+Out of the box after cloning this repo a simple ```vagrant up``` will create a 3 Master and 3 Slave cluster.  This cluster will create a weave network for docker to docker multi-host networking with a DNS name of *.mycompany.local.  
 
-#### To customize the number of slaves and attribution
+#### To customize the number of agents and attribution
 
-1. Modify the ```vagrant``` file to reflect the desired number of slave nodes and any slave attribution.  This file contains comments and examples to get you started
-2. Modify the ```VagrantFile``` and change the ```num_slaves``` value to be the number of slaves you created in the vagrant file.
-3. Add any custom options in the ```masters.yml``` and ```slaves.yml``` .
-4. Run ```vagrant up```
+1. Run ```vagrant up```
+
+## Using this playbook with Ansible Tower
+
+Branches:
+
+1. ```vagrant``` - unstable local dev branch, don't expect functionality
+2. ```dev``` - stable in vagrant, used to auto deploy via tower to dev environments
+3. ```master``` - stable, used to auto deploy via tower to production environments

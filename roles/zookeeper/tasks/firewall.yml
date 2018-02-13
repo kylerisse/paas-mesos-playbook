@@ -1,0 +1,25 @@
+---
+
+- name: zookeeper firewalld service
+  copy:
+    src: zookeeper.xml
+    dest: /etc/firewalld/services/
+    owner: root
+    group: root
+    mode: 0644
+  register: new_fw_service
+
+- name: reload firewalld
+  service:
+    name: firewalld
+    state: restarted
+  when: new_fw_service.changed
+
+- name: firewall accept zookeeper
+  firewalld:
+    rich_rule: 'rule family="ipv4" source address="{{ item }}" service name="zookeeper" accept'
+    permanent: true
+    state: enabled
+    immediate: yes
+  with_items: "{{ groups.all }}"
+  notify: Restart zookeeper

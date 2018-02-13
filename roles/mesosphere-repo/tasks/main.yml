@@ -1,0 +1,13 @@
+---
+
+- name: Download Mesosphere repository RPM
+  get_url:
+    url: "{{ mesosphere_repo_base_url }}/{{ mesosphere_repo_rpm_filename }}"
+    dest: "/tmp/{{ mesosphere_repo_rpm_filename }}"
+    sha256sum: "{{ mesosphere_repo_rpm_sha256 }}"
+
+
+- name: Install Mesosphere RPM repository
+  yum:
+    name: "/tmp/{{ mesosphere_repo_rpm_filename }}"
+    state: present

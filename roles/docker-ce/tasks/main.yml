@@ -1,0 +1,41 @@
+---
+
+- name: Install Docker CE Stable Repo
+  yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable Repository
+    baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+    enabled: yes
+    gpgcheck: no
+
+- name: Install Docker CE
+  yum:
+    name: docker-ce
+    state: latest
+  notify: Restart Docker
+  register: docker_fresh_install
+
+- name: /etc/docker directory
+  file:
+    path: /etc/docker
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+
+- name: Docker daemon.json options
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: 0600
+  notify: Restart Docker
+
+- name: Start Docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  when: docker_fresh_install
+  register: docker_fresh_start

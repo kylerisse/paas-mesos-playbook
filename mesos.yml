@@ -1,0 +1,21 @@
+---
+- hosts: all
+  become: yes
+  roles:
+    - { role: 'docker-ce' }
+    - { role: 'weavenet' }
+    - { role: 'mesosphere-repo' }
+
+- hosts: masters
+  become: yes
+  roles:
+    - { role: 'zookeeper' }
+    - { role: 'mesos', type: 'master' }
+    - { role: 'marathon' }
+    - { role: 'chronos' }
+
+- hosts: agents
+  become: yes
+  roles:
+    - { role: 'mesos', type: 'agent' }
+    - { role: 'marathon-lb' }
