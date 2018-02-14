@@ -1,3 +1,0 @@
----
-# vars file for ansible-master
-ansible_network_interface: "ansible_{{network_interface}}"
