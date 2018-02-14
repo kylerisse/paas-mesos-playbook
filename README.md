@@ -26,10 +26,3 @@ Out of the box after cloning this repo a simple ```vagrant up``` will create a 3
 
 1. Run ```vagrant up```
 
-## Using this playbook with Ansible Tower
-
-Branches:
-
-1. ```vagrant``` - unstable local dev branch, don't expect functionality
-2. ```dev``` - stable in vagrant, used to auto deploy via tower to dev environments
-3. ```master``` - stable, used to auto deploy via tower to production environments
